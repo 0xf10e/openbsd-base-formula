@@ -1,0 +1,3 @@
+openbsd:
+    mirror: http://ftp.jaist.ac.jp/pub/OpenBSD
+    build_user: alex
