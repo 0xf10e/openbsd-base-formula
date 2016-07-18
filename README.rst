@@ -16,3 +16,17 @@ You have to set `pillar[openbsd:build_user]`
 to specify a user (who should be member of
 the group `wsrc`) who's account should be
 used to compile code.
+
+States
+------
+
+* __`openbsd.src`__: Extracts and patches `/usr/src`
+    - **States are not autogeneratet**. Check the
+      (errata page)[https://www.openbsd.org/errata.html]
+      for your release and verify the formula
+      applies all available patches.
+* __`openbsd.patches`__: Compiles and installs
+  from patched `/usr/src`
+    - Prepares `/usr/src` by including `openbsd.src`
+* __`openbsd.pkg`__: Creates `/etc/pkg.conf` with
+  an URL based on `pillar[openbsd:mirror]`
