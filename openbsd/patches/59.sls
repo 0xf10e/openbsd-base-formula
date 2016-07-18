@@ -63,3 +63,33 @@ install_patched_crypto:
     - output_loglevel: quiet
     - require:
         - cmd: compile_patched_crypto
+
+{% load_yaml as singles %}
+  {{ home }}/001_sshd.patch.sig: /usr/src/usr.bin/ssh
+  {{ home }}/006_smtpd.patch.sig: /usr/src/usr.sbin/smtpd
+  {{ home }}/010_libexpat.patch.sig: /usr/src/lib/libexpat
+{% endload %}
+
+{# TODO: This has to go into a macro: #}
+{% for file, dir in singles.items() %}
+  {% set subsys = dir.split('/')[-1] %}
+compile_patched_{{ subsys }}:
+  cmd.run:
+    - name: |
+        make obj
+        make depend
+        make
+    - cwd: {{ dir }}
+    - user: {{ build_user }}
+    - group: wsrc
+    - require:
+      - cmd: {{ file }}
+
+install_patched_{{ subsys }}:
+  cmd.run:
+    - name: make install
+    - cwd: {{ dir }}
+    - user: root
+    - require:
+      - cmd: compile_patched_{{ subsys }}
+{% endfor %}
