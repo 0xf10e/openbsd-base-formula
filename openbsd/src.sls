@@ -59,11 +59,14 @@ extract_sys_tar_gz:
     cmd.run:
         - name: |
             signify -Vep /etc/signify/openbsd-{{ rel_nodot }}-base.pub \
-            -x {{ file }} -m - | (cd /usr/src && patch -p0)
+            -x {{ file }} -m - | (cd /usr/src && patch -N -p0)
         - cwd: {{ home }}
         - user: {{ build_user }}
         - require:
             - file: {{ home }}/{{ file }}
+        - onlyif: |
+            signify -Vep /etc/signify/openbsd-{{ rel_nodot }}-base.pub \
+            -x {{ file }} -m - | (cd /usr/src && patch -p0 -C -N)
     {# else: pass #}
     {% endif %}
 {% endfor %}
