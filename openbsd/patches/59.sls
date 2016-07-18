@@ -42,5 +42,24 @@ install_kernel:
     - require:
         - cmd: compile_kernel
 
+compile_patched_crypto:
+  cmd.run:
+    - name: |
+        make obj
+        make depend
+        make
+    - cwd: /usr/src/lib/libcrypto
+    - require:
+      - cmd: {{ home }}/005_crypto.patch.sig
+      - cmd: {{ home }}/009_crypto.patch.sig
+      - cmd: {{ home }}/011_crypto.patch.sig
+      - cmd: {{ home }}/012_crypto.patch.sig
 
-
+install_patched_crypto:
+  cmd.run:
+    - name: make install
+    - user: root
+    - cwd: /usr/src/lib/libcrypto
+    - output_loglevel: quiet
+    - require:
+        - cmd: compile_patched_crypto
