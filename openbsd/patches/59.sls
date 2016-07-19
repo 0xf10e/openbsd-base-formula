@@ -11,7 +11,7 @@ compile_kernel:
         KK=`sysctl -n kern.osversion | cut -d# -f1`
         config $KK
         cd ../compile/$KK
-        make
+        make > /dev/null
     - output_loglevel: quiet
     - cwd: /usr/src
     - user: {{ build_user }}
@@ -36,7 +36,7 @@ install_kernel:
         cd /usr/src/sys/arch/`machine`/conf
         KK=`sysctl -n kern.osversion | cut -d# -f1`
         cd ../compile/$KK
-        make install
+        make install > /dev/null
     - user: root
     - output_loglevel: quiet
     - require:
@@ -45,9 +45,9 @@ install_kernel:
 compile_patched_crypto:
   cmd.run:
     - name: |
-        make obj
-        make depend
-        make
+        make obj > /dev/null
+        make depend > /dev/null
+        make > /dev/null
     - cwd: /usr/src/lib/libcrypto
     - require:
       - cmd: {{ home }}/005_crypto.patch.sig
@@ -57,7 +57,7 @@ compile_patched_crypto:
 
 install_patched_crypto:
   cmd.run:
-    - name: make install
+    - name: make install > /dev/null
     - user: root
     - cwd: /usr/src/lib/libcrypto
     - output_loglevel: quiet
@@ -76,9 +76,9 @@ install_patched_crypto:
 compile_patched_{{ subsys }}:
   cmd.run:
     - name: |
-        make obj
-        make depend
-        make
+        make obj > /dev/null
+        make depend > /dev/null
+        make > /dev/null
     - cwd: {{ dir }}
     - user: {{ build_user }}
     - group: wsrc
@@ -87,7 +87,7 @@ compile_patched_{{ subsys }}:
 
 install_patched_{{ subsys }}:
   cmd.run:
-    - name: make install
+    - name: make install > /dev/null
     - cwd: {{ dir }}
     - user: root
     - require:
