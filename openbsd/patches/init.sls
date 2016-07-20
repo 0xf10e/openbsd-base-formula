@@ -8,7 +8,14 @@ include:
     - user: root
     - group: wsrc
     - dir_mode: 775
+  {# see `file: /usr/src` in `openbsd/src.sls`
     - recurse:
       - user
       - group
       - mode
+  #}
+reset_persmissions_on_usr_obj:
+  cmd.run:
+    - name: chown -R {{ build_user }}:wsrc /usr/obj
+    - require:
+      - cmd: reset_persmissions_on_usr_src

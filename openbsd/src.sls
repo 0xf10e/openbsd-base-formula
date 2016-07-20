@@ -13,15 +13,25 @@
 
 {% import_yaml 'openbsd/cksums/' + release + '.yaml' as cksums %}
 
+# Make sure /usr/src exists:
 /usr/src:
   file.directory:
     - user: {{ build_user }}
     - group: wsrc
     - dir_mode: 775
+    {# Using `file.directory takes way to long on my little MIPS router:
     - recurse:
         - user
         - group
         - mode
+    #}
+
+reset_persmissions_on_usr_src:
+  cmd.run:
+    {# I hope setting owner & group is sufficient #}
+    - name: chown -R {{ build_user }}:wsrc /usr/src
+    - require:
+      - file: /usr/src
 
 extract_{{ src_tarball|replace('.','_') }}:
     archive.extracted:

@@ -16,7 +16,7 @@ compile_kernel:
     - cwd: /usr/src
     - user: {{ build_user }}
     - require:
-      - file: /usr/obj
+      - cmd: reset_persmissions_on_usr_obj
       - cmd: {{ home }}/002_in6bind.patch.sig
       - cmd: {{ home }}/003_pledge.patch.sig
       - cmd: {{ home }}/004_mbuf.patch.sig
@@ -51,7 +51,7 @@ compile_patched_crypto:
         make > /dev/null
     - cwd: /usr/src/lib/libcrypto
     - require:
-      - file: /usr/obj
+      - cmd: reset_persmissions_on_usr_obj
       - cmd: {{ home }}/005_crypto.patch.sig
       - cmd: {{ home }}/009_crypto.patch.sig
       - cmd: {{ home }}/011_crypto.patch.sig
@@ -85,7 +85,7 @@ compile_patched_{{ subsys }}:
     - user: {{ build_user }}
     - group: wsrc
     - require:
-      - file: /usr/obj
+      - cmd: reset_persmissions_on_usr_obj
       - cmd: {{ file }}
 
 install_patched_{{ subsys }}:
