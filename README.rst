@@ -41,3 +41,9 @@ Prepares ``/usr/src`` by including ``openbsd.src``.
 -------------
 Creates ``/etc/pkg.conf`` with an URL based on
 ``pillar[openbsd:mirror]``.
+
+``iked``
+--------
+Creates ``/etc/iked.conf``, the configuration file
+for the ``iked`` daemon which handles IKEv2 for
+IPsec connections.
