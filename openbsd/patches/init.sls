@@ -2,6 +2,7 @@
 {% set rel_nodot = release|replace('.','') %}
 include:
     - openbsd.patches.{{ rel_nodot }}
+{% from 'openbsd/src.sls' import build_user %}
 
 /usr/obj:
   file.directory:
