@@ -13,6 +13,16 @@
 
 {% import_yaml 'openbsd/cksums/' + release + '.yaml' as cksums %}
 
+/usr/src:
+  file.directory:
+    - user: {{ build_user }}
+    - group: wsrc
+    - dir_mode: 775
+    - recurse:
+        - user
+        - group
+        - mode
+
 extract_{{ src_tarball|replace('.','_') }}:
     archive.extracted:
         - name: /usr/src
@@ -23,6 +33,8 @@ extract_{{ src_tarball|replace('.','_') }}:
         - user: {{ build_user }}
         - group: wsrc
         - if_missing: /usr/src/Makefile
+        - require:
+          - file: /usr/src
 
 extract_sys_tar_gz:
     archive.extracted:
