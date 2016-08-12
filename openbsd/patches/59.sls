@@ -30,6 +30,8 @@ compile_kernel:
       - cmd: {{ home }}/018_timeout.patch.sig
       - cmd: {{ home }}/019_kevent.patch.sig
       - cmd: {{ home }}/020_amap.patch.sig
+      - cmd: {{ home }}/022_sysctl.patch.sig
+      - cmd: {{ home }}/023_uvmisavail.patch.sig
 
 install_kernel:
   cmd.run:
@@ -70,6 +72,7 @@ install_patched_crypto:
   {{ home }}/001_sshd.patch.sig: /usr/src/usr.bin/ssh
   {{ home }}/006_smtpd.patch.sig: /usr/src/usr.sbin/smtpd
   {{ home }}/010_libexpat.patch.sig: /usr/src/lib/libexpat
+  {{ home }}/023_uvmisavail.patch.sig: /usr/src/usr.sbin/relayd
 {% endload %}
 
 {# TODO: This has to go into a macro: #}
