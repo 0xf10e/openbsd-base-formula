@@ -1,0 +1,6 @@
+iked:
+    pkg: openiked
+    service: iked
+    includes: []
+    macros: {}
+    policies: {}

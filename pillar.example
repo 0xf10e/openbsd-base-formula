@@ -1,3 +1,18 @@
 openbsd:
     mirror: http://ftp.jaist.ac.jp/pub/OpenBSD
     build_user: alex
+
+iked:
+    passive: True
+    decouple: True
+
+iked:
+  passive: True
+  policies:
+    web foo on host 6:
+        src: 192.168.17.3
+        dst: $host6
+        dport: 80
+  macros:
+    host6: 192.168.17.6
+
